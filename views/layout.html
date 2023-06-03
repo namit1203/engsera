@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1">
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="loggedin">
+	<nav class="navtop">
+		<div>
+			<h1>Engsera</h1>
+			<a href="/home"><i class="fas fa-home"></i>Home</a>
+			<a href="/profile"><i class="fas fa-user-circle"></i>Profile</a>
+			{% if role == 'Admin' %}
+			<a href="/admin/" target="_blank"><i class="fas fa-cog"></i>Admin</a>
+			{% endif %}
+			{% if role == 'Teacher' %}
+			<a href="/teacher/" target="_blank"><i class="fas fa-cog"></i>Teacher</a>
+			{% endif %}
+			<a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout</a>
+		</div>
+	</nav>
+	<div class="content">
+		{% block content %}{% endblock %}
+	</div>
+</body>
+
+</html>

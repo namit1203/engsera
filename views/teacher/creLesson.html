@@ -1,0 +1,33 @@
+{% extends 'teacher/layout.html' %}
+
+{% block title %}Add Lesson{% endblock %}
+
+{% block content %}
+  <h2>Add Lesson</h2>
+
+  <div class="content-block">
+    <form id="lessonForm" method="POST" action="/teacher/creLesson" class="form responsive-width-100" onsubmit="updateLessonContent(event)">
+
+      <label for="lessonName">Lesson name:</label>
+      <input type="text" id="lessonName" name="lessonName" required><br><br>
+
+      <label for="lessonDescription">Lesson description:</label>
+      <textarea id="lessonDescription" name="lessonDescription" required></textarea><br><br>
+
+      <label for="lessonContent">Lesson content:</label>
+      <textarea id="lessonContent" name="lessonContent" style="width: 1000px; height: 400px;" required></textarea>
+
+      <label for="courseId">Course:</label>
+      <select id="courseId" name="courseId" required>
+        <option value="">-- Select a course --</option>
+        {% for course in courses %}
+          <option value="{{ course.course_id }}">{{ course.course_name }}</option>
+        {% endfor %}
+      </select><br><br>
+
+      <input type="submit" value="Add lesson">
+    </form>
+  </div>
+
+
+{% endblock %}

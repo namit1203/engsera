@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Quiz</title>
+</head>
+<body>
+  <form id="quiz-form" method="post" class="form responsive-width-100">
+    <label for="courseId">Course:</label>
+    <select id="courseId" name="courseId" required>
+      <option value="">-- Select a course --</option>
+      {% for course in courses %}
+        <option value="{{ course.course_id }}">{{ course.course_name }}</option>
+      {% endfor %}
+    </select><br><br>
+
+    <div id="quizContainer">
+      <h3>Quiz 1</h3>
+      <label for="question1">Question:</label>
+      <textarea id="question1" name="question1" required></textarea><br><br>
+
+      <label for="option11">Option 1:</label>
+      <input type="text" id="option11" name="option11" required><br>
+
+      <label for="option21">Option 2:</label>
+      <input type="text" id="option21" name="option21" required><br>
+
+      <label for="option31">Option 3:</label>
+      <input type="text" id="option31" name="option31" required><br>
+
+      <label for="option41">Option 4:</label>
+      <input type="text" id="option41" name="option41" required><br>
+
+      <label for="rightAnswer1">Correct Answer:</label>
+      <input type="text" id="rightAnswer1" name="rightAnswer1" required><br>
+    </div>
+
+    <button id="addQuiz" type="button">Add Quiz</button><br><br>
+    <input type="submit" value="Add Quizzes">
+  </form>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    let quizCount = 1;
+  
+    document.getElementById("quiz-form").addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const formData = new FormData();
+  const courseId = document.getElementById("courseId").value;
+
+  console.log("Course ID:", courseId);
+
+  for (let i = 1; i <= quizCount; i++) {
+    const question = document.getElementById(`question${i}`).value;
+    const option1 = document.getElementById(`option1${i}`).value;
+    const option2 = document.getElementById(`option2${i}`).value;
+    const option3 = document.getElementById(`option3${i}`).value;
+    const option4 = document.getElementById(`option4${i}`).value;
+    const rightAnswer = document.getElementById(`rightAnswer${i}`).value;
+
+    console.log(`Question ${i}: ${question}`);
+    console.log(`Option1 ${i}: ${option1}`);
+    console.log(`Option2 ${i}: ${option2}`);
+    console.log(`Option3 ${i}: ${option3}`);
+    console.log(`Option4 ${i}: ${option4}`);
+    console.log(`Right Answer ${i}: ${rightAnswer}`);
+
+    formData.append(`courseId${i}`, courseId);
+    formData.append(`question${i}`, question);
+    formData.append(`option1${i}`, option1);
+    formData.append(`option2${i}`, option2);
+    formData.append(`option3${i}`, option3);
+    formData.append(`option4${i}`, option4);
+    formData.append(`rightAnswer${i}`, rightAnswer);
+  }
+
+  console.log("FormData object:", formData);
+
+  fetch('/teacher/creQuiz', {
+    method: 'POST',
+    body: formData,
+  })
+    .then((response) => response.text())
+    .then((message) => alert(message))
+    .catch((error) => console.error("Error:", error));
+});
+  </script>
+</body>
+</html>

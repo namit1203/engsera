@@ -1,0 +1,64 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var quizCount = 1;
+
+      // Add a new set of quiz fields
+      $('#addQuiz').click(function(e) {
+        e.preventDefault();
+        quizCount++;
+
+        var quizFields = `
+          <h3>Quiz ${quizCount}</h3>
+          <label for="question${quizCount}">Question:</label>
+          <input type="text" id="question${quizCount}" name="question${quizCount}" required><br>
+
+          <label for="option1${quizCount}">Option 1:</label>
+          <input type="text" id="option1${quizCount}" name="option1${quizCount}" required><br>
+
+          <label for="option2${quizCount}">Option 2:</label>
+          <input type="text" id="option2${quizCount}" name="option2${quizCount}" required><br>
+
+          <label for="option3${quizCount}">Option 3:</label>
+          <input type="text" id="option3${quizCount}" name="option3${quizCount}" required><br>
+
+          <label for="option4${quizCount}">Option 4:</label>
+          <input type="text" id="option4${quizCount}" name="option4${quizCount}" required><br>
+
+          <label for="rightAnswer${quizCount}">Correct Answer:</label>
+          <input type="text" id="rightAnswer${quizCount}" name="rightAnswer${quizCount}" required><br>
+        `;
+
+        $('#quizContainer').append(quizFields);
+      });
+    });
+  </script>
+</head>
+<body>
+  <h1>Add Quizzes</h1>
+  <form action="/addQuizzes" method="post" class="form responsive-width-100">
+    <div id="quizContainer">
+      <h3>Quiz 1</h3>
+      <label for="question1">Question:</label>
+      <input type="text" id="question1" name="question1" required><br>
+
+      <label for="option11">Option 1:</label>
+      <input type="text" id="option11" name="option11" required><br>
+
+      <label for="option21">Option 2:</label>
+      <input type="text" id="option21" name="option21" required><br>
+
+      <label for="option31">Option 3:</label>
+      <input type="text" id="option31" name="option31" required><br>
+
+      <label for="option41">Option 4:</label>
+      <input type="text" id="option41" name="option41" required><br>
+
+      <label for="rightAnswer1">Correct Answer:</label>
+      <input type="text" id="rightAnswer1" name="rightAnswer1" required><br>
+    </div>
+
+    <button id="addQuiz" type="button">Add Quiz</button><br><br>
+
+    <input type="submit" value="Add Quizzes">
+  </form>

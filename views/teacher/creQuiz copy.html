@@ -1,0 +1,90 @@
+{% extends 'teacher/layout.html' %}
+
+{% block title %}Add Course{% endblock %}
+
+{% block content %}
+  <h1>Add Quizzes</h1>
+  <form id="quiz-form" method="post" class="form responsive-width-100" enctype="application/json">
+    <div id="quizContainer">
+      <label for="courseId">Course:</label>
+      <select id="courseId" name="courseId" required>
+        <option value="">-- Select a course --</option>
+        {% for course in courses %}
+          <option value="{{ course.course_id }}">{{ course.course_name }}</option>
+        {% endfor %}
+      </select><br><br>
+      <h3>Quiz 1</h3>
+      <label for="question1">Question:</label>
+      <textarea id="question1" name="question1" required></textarea><br><br>
+
+      <label for="option11">Option 1:</label>
+      <input type="text" id="option11" name="option11" required><br>
+
+      <label for="option21">Option 2:</label>
+      <input type="text" id="option21" name="option21" required><br>
+
+      <label for="option31">Option 3:</label>
+      <input type="text" id="option31" name="option31" required><br>
+
+      <label for="option41">Option 4:</label>
+      <input type="text" id="option41" name="option41" required><br>
+
+      <label for="rightAnswer1">Correct Answer:</label>
+      <input type="text" id="rightAnswer1" name="rightAnswer1" required><br>
+    </div>
+
+    <button id="addQuiz" type="button">Add Quiz</button><br><br>
+    <input type="submit" value="Add Quizzes">
+  </form>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  let quizCount = 1;
+
+  document.getElementById("addQuiz").addEventListener("click", function () {
+    quizCount++;
+    let quizFields = `
+      <h3>Quiz ${quizCount}</h3>
+      <label for="question${quizCount}">Question:</label>
+      <textarea id="question${quizCount}" name="question${quizCount}" required></textarea><br><br>
+      <label for="option1${quizCount}">Option 1:</label>
+      <input type="text" id="option1${quizCount}" name="option1${quizCount}" required><br>
+      <label for="option2${quizCount}">Option 2:</label>
+      <input type="text" id="option2${quizCount}" name="option2${quizCount}" required><br>
+      <label for="option3${quizCount}">Option 3:</label>
+      <input type="text" id="option3${quizCount}" name="option3${quizCount}" required><br>
+      <label for="option4${quizCount}">Option 4:</label>
+      <input type="text" id="option4${quizCount}" name="option4${quizCount}" required><br>
+      <label for="rightAnswer${quizCount}">Correct Answer:</label>
+      <input type="text" id="rightAnswer${quizCount}" name="rightAnswer${quizCount}" required><br>
+    `;
+    document.getElementById("quizContainer").insertAdjacentHTML("beforeend", quizFields);
+  });
+
+  document.getElementById("quiz-form").addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = new FormData();
+    const courseId = document.getElementById("courseId").value; // Get the courseId value
+
+    for (let i = 1; i <= quizCount; i++) {
+      formData.append(`courseId${i}`, courseId); // Use the courseId value obtained above
+      formData.append(`question${i}`, document.getElementById(`question${i}`).value);
+      formData.append(`option1${i}`, document.getElementById(`option1${i}`).value);
+      formData.append(`option2${i}`, document.getElementById(`option2${i}`).value);
+      formData.append(`option3${i}`, document.getElementById(`option3${i}`).value);
+      formData.append(`option4${i}`, document.getElementById(`option4${i}`).value);
+      formData.append(`rightAnswer${i}`, document.getElementById(`rightAnswer${i}`).value);
+    }
+
+    fetch('/teacher/creQuiz', {
+      method: 'POST',
+      body: formData, // Send formData instead of JSON object
+    })
+      .then((response) => response.text())
+      .then((message) => alert(message))
+      .catch((error) => console.error("Error:", error));
+  });
+</script>
+  
+
+{% endblock %}
